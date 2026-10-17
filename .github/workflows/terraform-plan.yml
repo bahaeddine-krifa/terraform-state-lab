@@ -38,11 +38,10 @@ jobs:
         run: terraform validate -no-color
 
       - name: Scan Terraform security
-        uses: aquasecurity/trivy-action@v0.33.1
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: config
           scan-ref: .
-          version: "v0.69.0"
           exit-code: "1"
           severity: HIGH,CRITICAL
           cache: "false"
