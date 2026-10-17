@@ -10,9 +10,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: terraform-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
-    name: Format and validate
+    name: Terraform format and validate
     runs-on: ubuntu-latest
 
     steps:
@@ -27,8 +31,8 @@ jobs:
       - name: Check formatting
         run: terraform fmt -check -recursive
 
-      - name: Initialize without remote backend
+      - name: Initialize without AWS backend
         run: terraform init -backend=false -input=false
 
       - name: Validate configuration
-        run: terraform validate
+        run: terraform validate -no-color
