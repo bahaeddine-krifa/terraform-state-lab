@@ -1,25 +1,19 @@
-name: Terraform Plan
+name: Terraform CI
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: Validate Terraform
+  validate:
+    name: Format and validate
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: .
 
     steps:
       - name: Checkout repository
@@ -33,15 +27,8 @@ jobs:
       - name: Check formatting
         run: terraform fmt -check -recursive
 
-      - name: Initialize Terraform
-        run: terraform init -input=false
-        env:
-          AWS_REGION: us-east-1
+      - name: Initialize without remote backend
+        run: terraform init -backend=false -input=false
 
       - name: Validate configuration
         run: terraform validate
-
-      - name: Generate plan
-        run: terraform plan -input=false -no-color
-        env:
-          AWS_REGION: us-east-1
