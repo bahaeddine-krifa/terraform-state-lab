@@ -37,6 +37,17 @@ jobs:
       - name: Validate configuration
         run: terraform validate -no-color
 
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v6
+
+      - name: Initialize TFLint
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Run TFLint
+        run: tflint --format compact
+        
       - name: Scan Terraform security
         uses: aquasecurity/trivy-action@v0.36.0
         with:
