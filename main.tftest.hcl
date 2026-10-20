@@ -11,3 +11,15 @@ run "check_module_outputs" {
     error_message = "The app description does not match the expected value."
   }
 }
+
+run "reject_invalid_environment" {
+  command = plan
+
+  variables {
+    environment = "invalid"
+  }
+
+  expect_failures = [
+    var.environment
+  ]
+}

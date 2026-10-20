@@ -14,7 +14,7 @@ module "app_info" {
   source = "./modules/app-info"
 
   app_name    = "terraform-state-lab"
-  environment = "learning"
+  environment = var.environment
 }
 
 output "app_description" {
