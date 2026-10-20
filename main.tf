@@ -10,6 +10,17 @@ terraform {
   }
 }
 
+module "app_info" {
+  source = "./modules/app-info"
+
+  app_name    = "terraform-state-lab"
+  environment = "learning"
+}
+
+output "app_description" {
+  value = module.app_info.app_description
+}
+
 output "lesson" {
   value = "Terraform remote state is configured"
 }
